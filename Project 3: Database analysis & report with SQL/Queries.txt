@@ -1,0 +1,49 @@
+/* Query 1 */
+SELECT artist.name, COUNT(album.title) AS "Number of albums"
+FROM artist
+JOIN album
+ON artist.artistid = album.artistid
+GROUP BY artist.name
+ORDER BY "Number of albums" DESC
+LIMIT 10;
+
+/* Query 2 */
+SELECT genre.name "Genre", COUNT(track.name) "Number of tracks"
+FROM genre
+JOIN track
+ON genre.genreid = track.genreid
+GROUP BY Genre
+ORDER BY "Number of tracks" DESC
+LIMIT 5;
+
+/* Query 3 */
+SELECT customer.firstname || " " || customer.lastname AS "Customer name",
+		SUM(invoice.total) AS "Total money spent"
+FROM customer
+JOIN invoice
+ON invoice.customerid = customer.customerid
+GROUP BY "Customer name"
+ORDER BY "Total money spent" DESC
+LIMIT 10;
+
+/* Query 4 */
+SELECT customer.country, AVG(invoice.total) AS "Average $ spent for each country per order"
+FROM customer
+JOIN invoice
+ON customer.customerid = invoice.customerid
+GROUP BY customer.country
+ORDER BY "Average $ spent for each country per order" DESC
+LIMIT 5;
+
+/* Query 5 */
+SELECT g.name AS "Genre", COUNT("Genre") AS "Number of Invoices in 2013"
+FROM invoice inv
+JOIN invoiceline invl
+ON inv.invoiceid = invl.invoicelineid
+JOIN track t
+ON invl.trackid = t.trackid
+JOIN genre g
+ON t.genreid = g.genreid
+WHERE STRFTIME('%Y',inv.invoicedate) = '2013'
+GROUP BY "Genre"
+ORDER BY "Number of Invoices in 2013" DESC;
